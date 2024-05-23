@@ -1,0 +1,104 @@
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-br&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Jogo Quiz&lt;/title&gt;
+&lt;style&gt;
+body {
+font-family: Arial, sans-serif;
+text-align: center;
+margin-top: 50px;
+}
+.quiz-container {
+max-width: 600px;
+margin: 0 auto;
+}
+#pergunta {
+font-weight: bold;
+margin-bottom: 10px;
+}
+.opcao {
+display: block;
+margin: 10px auto;
+}
+#resultado {
+margin-top: 20px;
+font-weight: bold;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;quiz-container&quot;&gt;
+&lt;h1&gt;Jogo Quiz&lt;/h1&gt;
+&lt;div id=&quot;pergunta&quot;&gt;&lt;/div&gt;
+&lt;div id=&quot;opcoes&quot; class=&quot;opcao&quot;&gt;&lt;/div&gt;
+&lt;button onclick=&quot;verificarResposta()&quot;&gt;Verificar Resposta&lt;/button&gt;
+&lt;div id=&quot;resultado&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const perguntas = [
+{
+pergunta: &quot;Qual é a capital do Brasil?&quot;,
+opcoes: [&quot;Rio de Janeiro&quot;, &quot;São Paulo&quot;, &quot;Brasília&quot;, &quot;Salvador&quot;],
+resposta: &quot;Brasília&quot;
+},
+{
+pergunta: &quot;Quem escreveu &#39;Dom Quixote&#39;?&quot;,
+opcoes: [&quot;Machado de Assis&quot;, &quot;Cervantes&quot;, &quot;Shakespeare&quot;, &quot;Garcia Lorca&quot;],
+resposta: &quot;Cervantes&quot;
+},
+{
+pergunta: &quot;Quantos planetas fazem parte do sistema solar?&quot;,
+opcoes: [&quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;],
+resposta: &quot;8&quot;
+}
+];
+let perguntaAtual = 0;
+function carregarPergunta() {
+const perguntaElemento = document.getElementById(&quot;pergunta&quot;);
+const opcoesElemento = document.getElementById(&quot;opcoes&quot;);
+perguntaElemento.textContent = perguntas[perguntaAtual].pergunta;
+opcoesElemento.innerHTML = &quot;&quot;;
+perguntas[perguntaAtual].opcoes.forEach(opcao =&gt; {
+const opcaoElemento = document.createElement(&quot;input&quot;);
+opcaoElemento.type = &quot;radio&quot;;
+opcaoElemento.name = &quot;opcao&quot;;
+opcaoElemento.value = opcao;
+opcaoElemento.classList.add(&quot;opcao&quot;);
+opcaoElemento.required = true;
+const labelElemento = document.createElement(&quot;label&quot;);
+labelElemento.textContent = opcao;
+opcoesElemento.appendChild(opcaoElemento);
+opcoesElemento.appendChild(labelElemento);
+});
+}
+function verificarResposta() {
+const opcoesSelecionadas =
+document.querySelectorAll(&#39;input[name=&quot;opcao&quot;]:checked&#39;);
+if (opcoesSelecionadas.length === 0) {
+
+alert(&quot;Por favor, selecione uma opção.&quot;);
+return;
+}
+const respostaUsuario = opcoesSelecionadas[0].value;
+const respostaCorreta = perguntas[perguntaAtual].resposta;
+const resultadoElemento = document.getElementById(&quot;resultado&quot;);
+if (respostaUsuario === respostaCorreta) {
+resultadoElemento.textContent = &quot;Resposta correta!&quot;;
+} else {
+resultadoElemento.textContent = `Resposta incorreta. A resposta correta é:
+${respostaCorreta}`;
+}
+perguntaAtual++;
+if (perguntaAtual &lt; perguntas.length) {
+carregarPergunta();
+} else {
+resultadoElemento.textContent += &quot; Fim do Jogo!&quot;;
+}
+}
+carregarPergunta();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
